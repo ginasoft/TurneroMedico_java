@@ -1,6 +1,6 @@
 # Turnero Médico
 
-**Materia:** Laboratorio 1 - Programación 3
+**Materia:** Laboratorio 1 - Programación 3  
 **Carrera:** Ingeniería en Inteligencia Artificial – Universidad de Palermo
 
 ---
@@ -144,24 +144,41 @@ obras_sociales (id, nombre, porcentaje_descuento)
 
 ## Nota para el Final
 
-> **Recordá identificar donde podés ahorrar código y pensar la UI en términos de componentes para el final.**
+> **"Recordá identificar donde podés ahorrar código y pensar la UI en términos de componentes para el final."**
 
-### Puntos a tener en cuenta:
+### ¿Qué significa esto? ¿Qué me van a preguntar?
 
-1. **Reutilización de código:**
-   - Identificar patrones repetitivos en los formularios (Form)
-   - Analizar los GridPanel y TableModel para posibles abstracciones
-   - Revisar métodos similares en los DAOs que podrían generalizarse
+En el final te pueden pedir que identifiques **código repetido** en tu proyecto y que propongas cómo **refactorizarlo** para reutilizarlo. También que pienses la interfaz como **componentes reutilizables**.
 
-2. **Componentización de la UI:**
-   - Los paneles de tabla (`*GridPanel`) siguen estructuras similares
-   - Los formularios (`*Form`) comparten lógica de validación y guardado
-   - Considerar componentes reutilizables para campos comunes (combos de selección, validadores)
+### Ejemplos concretos de lo que tenés que saber identificar:
 
-3. **Áreas de mejora identificadas:**
-   - Formularios: Extraer clase base `BaseForm<T>` con métodos `guardar()`, `limpiar()`, `validar()`
-   - Tablas: Crear `GenericTableModel<T>` con configuración de columnas
-   - DAOs: La clase `OperacionBD` ya implementa Template Method, revisar su uso
+**1. Código repetido en los Formularios (`*Form.java`):**
+- `MedicoForm`, `PacienteForm`, `ConsultorioForm`, `ObraSocialForm` tienen estructura similar
+- Todos tienen: campos de texto, botón guardar, método limpiar, validaciones
+- **Pregunta típica:** "¿Cómo podrías crear una clase base para no repetir código en los formularios?"
+- **Respuesta:** Crear un `BaseForm<T>` abstracto con métodos `guardar()`, `limpiar()`, `validar()`
+
+**2. Código repetido en los Paneles de Tabla (`*GridPanel.java`):**
+- `MedicoGridPanel`, `PacienteGridPanel`, `ConsultorioGridPanel` son muy parecidos
+- Todos tienen: JTable, modelo de tabla, botones de acción, método actualizar
+- **Pregunta típica:** "¿Qué componente podrías extraer para reutilizar en todas las grillas?"
+- **Respuesta:** Crear un `BaseGridPanel<T>` con la tabla y configuración común
+
+**3. Código repetido en los TableModel (`*TableModel.java`):**
+- Todos extienden `AbstractTableModel` y definen columnas de forma similar
+- **Pregunta típica:** "¿Cómo generalizarías los TableModel?"
+- **Respuesta:** Crear un `GenericTableModel<T>` parametrizable
+
+**4. Pensar la UI en componentes:**
+- Un "componente" es una pieza de UI reutilizable
+- Ejemplos: Un selector de fecha, un combo de obras sociales, un panel de búsqueda
+- **Pregunta típica:** "Si tuvieras que agregar obra social en otro formulario, ¿cómo lo harías sin repetir código?"
+- **Respuesta:** Extraer el JComboBox de obras sociales a un componente `ObraSocialSelector`
+
+### Patrones que ya usaste (te pueden preguntar):
+- **DAO Pattern:** Separás el acceso a datos en interfaces (`MedicoDAO`) e implementaciones (`MedicoDAOH2Impl`)
+- **Template Method:** La clase `OperacionBD` define el esqueleto de operaciones de BD
+- **Service Layer:** Los `*Service` contienen la lógica de negocio separada de la UI
 
 ---
 
@@ -179,9 +196,3 @@ TurneroMedicoRecuperatorio/
 ├── .project                # Configuración Eclipse
 └── README.md               # Este archivo
 ```
-
----
-
-## Autor
-
-Trabajo práctico desarrollado para el final de Laboratorio 1 - Programación 3
